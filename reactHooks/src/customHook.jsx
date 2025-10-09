@@ -16,6 +16,8 @@ function App() {
     //     localStorage.setItem('username', name)
     // }, [name]);
 
+  
+  //Now we can use the localStorage feature of browser using this custom hook--> "useLocalStorage" in any component.
     const [name, setName] = useLocalStorage('username', '')  //Provide the key-->'username' and initialValue-->''
     const [Id, setId] = useLocalStorage('Id', '')  //Provide the key-->'username' and initialValue-->''
 
