@@ -1,4 +1,5 @@
 //React allows us to create our own hook which is known as custom hook.
+//why we need?-->Lets say you have a "logic component" that needs to be used by multiple components, so we can extract that logic to create a custom hook.
 
 import React from "react";
 import "./App.css";
