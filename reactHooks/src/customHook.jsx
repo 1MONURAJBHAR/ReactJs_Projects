@@ -24,7 +24,7 @@ function App() {
             <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} />
             <h2> Hello, {name}! </h2>
             
-            <input type="text" placeholder="Enter your name" value={Id} onChange={(e) => setId(e.target.value)} />
+            <input type="text" placeholder="Enter your Id" value={Id} onChange={(e) => setId(e.target.value)} />
             <h2> Your Id: { Id } </h2>
         </>
     )
