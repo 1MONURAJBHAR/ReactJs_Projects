@@ -11,7 +11,7 @@ function useCurrencyInfo(currency) {
           `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${currency}.json`
         );
         const json = await response.json(); // Convert the raw response into JSON format
-        setData(json[currency]); // Extract conversion rates for the given base currency and update state
+        setData(json[currency]); // Extract conversion rates for the given base currency and update state-->"data"
       } catch (error) {
         console.error("Error fetching currency data:", error);
       }

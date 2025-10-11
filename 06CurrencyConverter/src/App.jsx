@@ -3,10 +3,10 @@ import { InputBox } from "./components";
 import useCurrencyInfo from "./hooks/useCurrencyInfo";
 
 function App() {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0); //This will set the amount to "from inputBox"
   const [from, setFrom] = useState("usd");
   const [to, setTo] = useState("inr");
-  const [convertedAmount, setConvertedAmount] = useState(0);
+  const [convertedAmount, setConvertedAmount] = useState(0); //This will set the convertedAmount to "to inputBox"
 
   const currencyInfo = useCurrencyInfo(from);
   const options = Object.keys(currencyInfo);
@@ -15,8 +15,8 @@ function App() {
   const swap = () => {
     setFrom(to);
     setTo(from);
-    setConvertedAmount(amount);
-    setAmount(convertedAmount);
+    setConvertedAmount(amount); 
+    setAmount(convertedAmount); 
   };
 
   // Convert amount
@@ -37,10 +37,9 @@ function App() {
           💱 Currency Converter
         </h1>
 
-        <form
+        <form   
           onSubmit={(e) => {
-            e.preventDefault();
-            convert();
+            e.preventDefault(), convert();
           }}
           className="space-y-6"
         >
@@ -49,7 +48,7 @@ function App() {
             <InputBox
               label="From"
               amount={amount}
-              currencyOptions={options}
+              currencyOptions={options}  
               onCurrencyChange={(currency) => setFrom(currency)}
               selectCurrency={from}
               onAmountChange={(amount) => setAmount(amount)}
@@ -75,7 +74,7 @@ function App() {
               currencyOptions={options}
               onCurrencyChange={(currency) => setTo(currency)}
               selectCurrency={to}
-              amountDisable
+              amountDisable={true}
             />
           </div>
 
@@ -89,7 +88,7 @@ function App() {
         </form>
 
         {/* Result display */}
-        <div className="mt-6 text-center text-white/90">
+        <div className="mt-6 text-center text-white/90">     
           {convertedAmount > 0 && (
             <p className="text-xl font-semibold">
               {amount} {from.toUpperCase()} ={" "}
@@ -105,3 +104,114 @@ function App() {
 }
 
 export default App;
+
+
+
+/**onCurrencyChange={(currency) => setFrom(currency)}
+selectCurrency={from}
+onAmountChange={(amount) => setAmount(amount)}
+Let’s explain each part one by one 👇
+
+🟢 1️⃣ onCurrencyChange={(currency) => setFrom(currency)}
+The InputBox component has a dropdown (like “USD”, “INR”, “EUR”, etc.).
+
+When the user selects a currency, it calls the function you gave in onCurrencyChange.
+
+➡️ This function receives the selected value (like "inr" or "usd").
+Then it updates the React state from using the setter function setFrom.
+
+✅ Example:
+If the user picks "eur" from dropdown:
+
+js
+Copy code
+setFrom("eur")
+Now, from = "eur" in your app’s state.
+
+🟣 2️⃣ selectCurrency={from}
+This tells the InputBox which currency should be currently selected in its dropdown.
+
+The value of from (like "usd") is passed to selectCurrency.
+
+✅ Example:
+If from = "usd", then the dropdown inside InputBox will show USD as selected.
+
+So this line keeps the dropdown in sync with your React state.
+
+🔵 3️⃣ onAmountChange={(amount) => setAmount(amount)}
+The InputBox also has an input field where you type the amount (like 100 or 250).
+
+Whenever the user changes the number, onAmountChange is called with that new number.
+
+➡️ Then it updates your amount state using:
+
+js
+Copy code
+setAmount(amount)
+✅ Example:
+If the user types 200, then amount = 200.
+
+🧠 Summary Table
+Prop Name	What It Does	Triggered By	Effect
+onCurrencyChange	Function that updates the selected currency	When user picks a new currency from dropdown	Updates from state
+selectCurrency	Tells which currency is currently selected	Controlled by React state	Keeps dropdown synced
+onAmountChange	Function that updates the amount	When user types in input field	Updates amount state
+
+💡 In short:
+You’re connecting your UI (InputBox) ↔ state variables (from and amount).
+So when the user types or selects something — React updates the state,
+and the state updates the UI again (two-way data binding).
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+/**<form
+  onSubmit={(e) => {
+    e.preventDefault(), convert();
+  }}
+  className="space-y-6"
+>
+🔹 1️⃣ onSubmit={(e) => { ... }}
+This is an event handler that runs when the form is submitted.
+A form is submitted when you click the submit button or press Enter inside an input.
+
+🔹 2️⃣ e.preventDefault()
+Normally, submitting a form reloads the page (default HTML behavior).
+e.preventDefault() stops the page from reloading, so React can handle the logic without losing state.
+
+🔹 3️⃣ convert();
+This calls your custom function convert() which calculates the converted amount based on the input and selected currencies.
+It updates the state (convertedAmount) and re-renders the UI with the new value.
+
+🔹 4️⃣ className="space-y-6"
+This is Tailwind CSS.
+Adds vertical spacing between all direct children of the form.
+Makes your form look clean with even gaps between input boxes, buttons, etc.
+
+⚠️ Important Note
+Your snippet has:
+
+
+e.preventDefault(), convert();
+The comma , works in JavaScript, but it’s better to use a semicolon for clarity:
+
+
+e.preventDefault();
+convert();
+This avoids confusion and is easier to read.
+
+✅ Plain English Summary
+When you submit the form:
+Stop the page from reloading (preventDefault)
+Run your conversion logic (convert())
+space-y-6 just makes everything nicely spaced vertically */

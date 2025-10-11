@@ -7,29 +7,28 @@ function InputBox({
   amount,
   onAmountChange,
   onCurrencyChange,
-  currencyOptions = [],
-  selectCurrency = "usd",
-  amountDisable = false,
-  currencyDisable = false,
-  className = "",
+  currencyOptions = [],   //by default it is []--> empty array.
+  selectCurrency = "usd",   //by default it is "usd"
+  amountDisable = false,   //by default it is false
+  currencyDisable = false, //by default it is false
+  className = "", //to add extra css styles
 }) {
   //Create a unique ID for the input
   //useId() is a React hook that creates a unique ID (so if you use many InputBox components, each one has its own unique input ID).
   const amountInputId = useId();
 
   return (
+    /**htmlFor={amountInputId} connects this label with the input below.
+👉 Clicking the label focuses the input automatically. */
     <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
-      
-      
-        <div className="w-1/2">
-      
+      <div className="w-1/2">
         <label
           htmlFor={amountInputId}
           className="text-black/40 mb-2 inline-block"
         >
           {label}
         </label>
-        
+
         <input
           id={amountInputId}
           className="outline-none w-full bg-transparent py-1.5"
@@ -37,33 +36,37 @@ function InputBox({
           placeholder="Amount"
           disabled={amountDisable}
           value={amount}
-          onChange={(e) =>
-            onAmountChange && onAmountChange(Number(e.target.value))
+          onChange={
+            (e) => onAmountChange && onAmountChange(Number(e.target.value)) //Checks the onAmountChange function exits or not, if it exists then update it with the typed value by user
           }
+          /**onChange is an event handler for input fields.
+            e = the event object, contains info about the input.
+            e.target.value = the current value typed by the user.   Number(e.target.value) = converts the input from string → number */
         />
-        
       </div>
-      
-          
 
       <div className="w-1/2 flex flex-wrap justify-end text-right">
-      
         <p className="text-black/40 mb-2 w-full">Currency Type</p>
-        
+
         <select
-          className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
+          className="rounded-lg px-1 py-1 bg-gray-200 cursor-pointer outline-none"
           value={selectCurrency}
           onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
           disabled={currencyDisable}
         >
-            
           {currencyOptions.map((currency) => (
             <option key={currency} value={currency}>
               {currency}
             </option>
-            
+            /**What it does:
+               currencyOptions = an array of currency codes like ["usd", "inr", "eur"].
+               .map() = loops through each currency and creates an <option> element for it.
+               key={currency} = React requires a unique key for each element in a list, since every currency code is unique we can set it as key-->["usd","inr","dnr"].
+               value={currency} = the actual value sent when the user selects this option. This value will be sent.
+               {currency} inside <option> = what the user sees in the dropdown.
+               Plain English:
+               It takes all available currencies and creates a dropdown list so the user can pick one. */
           ))}
-                  
         </select>
       </div>
     </div>
@@ -75,66 +78,38 @@ export default InputBox;
 
 
 
-/**First, what is <select>?
-
-It’s a dropdown menu in HTML (and React).
-It allows the user to choose one option from a list (like a list of currencies).
-
-🧩 The JSX code:
-<select
-  className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
-  value={selectCurrency}
-  onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
-  disabled={currencyDisable}
->
-  {currencyOptions.map((currency) => (
-    <option key={currency} value={currency}>
-      {currency}
-    </option>
-  ))}
-</select>
-
-🔍 Line-by-line Explanation
-1️⃣ The opening <select> tag
-<select
-  className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
 
 
-Adds Tailwind CSS classes for styling:
 
-rounded-lg → rounded corners
+/**Input onChange:
+onChange={(e) =>
+  onAmountChange && onAmountChange(Number(e.target.value))
+}
 
-px-1 py-1 → small padding
 
-bg-gray-100 → light gray background
+What it does:
+onChange is an event handler for input fields.
+e = the event object, contains info about the input.
+e.target.value = the current value typed by the user.
+Number(e.target.value) = converts the input from string → number.
+onAmountChange && onAmountChange(...) = checks if onAmountChange function exists, then calls it with the new value.
+Plain English:
 
-cursor-pointer → shows pointer on hover
+When you type a number, this line updates the state in the parent component with the new value.
 
-outline-none → removes default blue outline when focused
+2️⃣ Select onChange:
+onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
 
-2️⃣ value={selectCurrency}
-This makes the dropdown a controlled component in React.
-It shows the currently selected value from the variable selectCurrency.
-For example, if selectCurrency = "usd", then “usd” will appear selected in the dropdown.
-So React controls what is selected, not the browser.
 
-3️⃣ onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
-This handles what happens when the user changes the dropdown selection.
-e.target.value = the newly selected currency (for example, "inr").
-onCurrencyChange is a function passed as a prop.
+What it does:
+onChange is for the dropdown (<select>).
+e.target.value = the currency the user selected.
+onCurrencyChange && onCurrencyChange(...) = calls the parent function to update the selected currency state.
 
-The && means: “only call it if the function exists.”
-🧠 So basically:
+Plain English:
+When you pick a currency from the dropdown, this updates the “from” or “to” currency in the app.
 
-When user picks a different currency, call onCurrencyChange(newCurrency) to tell the parent component the new value.
-
-4️⃣ disabled={currencyDisable}
-
-If currencyDisable is true, the dropdown becomes unclickable.
-
-Useful if you want to “lock” one of the boxes in a currency converter (like a “To” box that updates automatically).
-
-5️⃣ The options list
+3️⃣ Rendering dropdown options:
 {currencyOptions.map((currency) => (
   <option key={currency} value={currency}>
     {currency}
@@ -142,55 +117,31 @@ Useful if you want to “lock” one of the boxes in a currency converter (like 
 ))}
 
 
-currencyOptions is an array (like ["usd", "inr", "eur", "gbp"]).
+What it does:
+currencyOptions = an array of currency codes like ["usd", "inr", "eur"].
+.map() = loops through each currency and creates an <option> element for it.
+key={currency} = React requires a unique key for each element in a list, since every currency code is unique we can set it as key-->["usd","inr","dnr"].
+value={currency} = the actual value sent when the user selects this option. This value will be sent.
+{currency} inside <option> = what the user sees in the dropdown.
 
-.map() loops over it to create <option> elements dynamically.
+Plain English:
+It takes all available currencies and creates a dropdown list so the user can pick one.
 
-Each <option> looks like:
+✅ Combined Summary:
+Part	What it does
+onChange for input	Updates amount as you type
+onChange for select	Updates selected currency when you pick one
+.map with <option>	Creates the list of currencies for the dropdown
 
-<option key="usd" value="usd">usd</option>
-
-
-key={currency} helps React identify each option efficiently.
-
-value={currency} = the actual data sent when selected.
-
-{currency} (inside the tags) = the text shown to the user.
-
-✅ Example in action
-
-If:
-
-currencyOptions = ["usd", "inr", "eur"];
-selectCurrency = "inr";
-currencyDisable = false;
-
-
-Then your dropdown will look like:
-
-[ inr ▼ ]
-
-
-with all 3 options inside.
-
-And when you select “usd,”
-React will call onCurrencyChange("usd").
+💡 Think of it like this:
+Typing → updates amount
+Selecting → updates currency
+Looping .map() → fills the dropdown options */
 
 
 
 
-What it is
-<option key={currency} value={currency}>
-  {currency}
-</option>
-
-
-This is one item in a dropdown menu (<select>).
-It represents one currency in your list of currencies.
-
-
-
-
+/*
 🔍 Line-by-line
 1️⃣ key={currency}
 React uses key to identify each element uniquely in a list.
