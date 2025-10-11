@@ -15,8 +15,8 @@ function App() {
   const swap = () => {
     setFrom(to);
     setTo(from);
-    setConvertedAmount(amount); 
-    setAmount(convertedAmount); 
+    setConvertedAmount(amount);
+    setAmount(convertedAmount);
   };
 
   // Convert amount
@@ -37,9 +37,10 @@ function App() {
           💱 Currency Converter
         </h1>
 
-        <form   
+        <form
           onSubmit={(e) => {
-            e.preventDefault(), convert();
+            e.preventDefault();
+            convert();
           }}
           className="space-y-6"
         >
@@ -48,7 +49,7 @@ function App() {
             <InputBox
               label="From"
               amount={amount}
-              currencyOptions={options}  
+              currencyOptions={options}
               onCurrencyChange={(currency) => setFrom(currency)}
               selectCurrency={from}
               onAmountChange={(amount) => setAmount(amount)}
@@ -88,7 +89,7 @@ function App() {
         </form>
 
         {/* Result display */}
-        <div className="mt-6 text-center text-white/90">     
+        <div className="mt-6 text-center text-white/90">
           {convertedAmount > 0 && (
             <p className="text-xl font-semibold">
               {amount} {from.toUpperCase()} ={" "}
@@ -101,6 +102,13 @@ function App() {
       </div>
     </div>
   );
+  /*In JavaScript, condition && expression means:
+If the condition is true → render the expression
+If the condition is false → render nothing (skip it)
+
+If the converted amount is bigger than 0, show the conversion result on the page. Otherwise, show nothing.”
+
+*/
 }
 
 export default App;
@@ -123,8 +131,7 @@ Then it updates the React state from using the setter function setFrom.
 ✅ Example:
 If the user picks "eur" from dropdown:
 
-js
-Copy code
+
 setFrom("eur")
 Now, from = "eur" in your app’s state.
 
@@ -145,8 +152,7 @@ Whenever the user changes the number, onAmountChange is called with that new num
 
 ➡️ Then it updates your amount state using:
 
-js
-Copy code
+
 setAmount(amount)
 ✅ Example:
 If the user types 200, then amount = 200.
