@@ -7,7 +7,7 @@ function App() {
   const [value, setValue] = useState(0);
   const count = useRef(0); //useRef does not re-renders the component when count is changed,instead in useState when the count is changed it re-renders the component.                                                                   //This gives us an object which contains "current" property which holds "value" passed in useRef.
 
-  useEffect(() => {//Now re-rendering happens only when tha any state/variable changes like "value". useEffect()-->Runs after every render (if no dependency array is given)
+  useEffect(() => {//Now re-rendering happens only when the any state/variable changes like "value". useEffect()-->Runs after every render (if no dependency array is given)
     count.current = count.current + 1; //--> This is my mutable variable inside the count object changing it does not re-renders the component.
    // console.log(count); //Notice here even though you see both current value is always 1 but on web you will see its value one less than the value on browsers console because this useEffect always run after rendering the component. Matlab value ko print karne ke baad +1 hoga
   });
